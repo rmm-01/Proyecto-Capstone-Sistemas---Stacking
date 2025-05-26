@@ -1,0 +1,53 @@
+/* === SIDEBAR LATERAL === */
+#sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 20px;
+    background-color: #1a1a2e;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#sidebar .sidebar-header h4 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #f5f5f5;
+}
+
+#sidebar .nav-link {
+    font-size: 1rem;
+    color: #c0c0c0;
+    transition: all 0.2s ease;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #16213e;
+    color: #ffffff;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
+/* === MAIN CONTENT === */
+#main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+
+/* Responsive sidebar (opcional si quieres versión móvil luego) */
+@media (max-width: 768px) {
+    #sidebar {
+        display: none;
+    }
+
+    #main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
+
+
+
+

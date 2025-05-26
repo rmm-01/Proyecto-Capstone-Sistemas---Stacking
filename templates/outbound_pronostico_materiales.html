@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>📦 Predicción de Demanda por Materiales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-dark">
+<div class="container py-5">
+    <h2 class="mb-4 text-center">📦 Predicción de Demanda por Materiales</h2>
+
+    <div class="alert alert-info" role="alert">
+        <strong>ℹ️ Información:</strong> Este modelo utiliza un enfoque de <strong>Ensemble Stacking</strong> basado en datos limpios de demanda y stock. Se aplicó:
+        <ul>
+            <li>🔢 Escalamiento de variables numéricas.</li>
+            <li>📉 Transformación logarítmica sobre la variable <code>cantidad</code>.</li>
+            <li>🧹 Filtro de valores atípicos (cuantil 99%).</li>
+        </ul>
+        El modelo final combina predictores como <code>LGBM</code>, <code>XGB</code> y <code>ExtraTrees</code> para mejorar la precisión.
+    </div>
+
+    <form method="POST" action="/prediccion_materiales" enctype="multipart/form-data" class="mb-4">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="archivo_demanda" class="form-label">Archivo de Demanda Limpia:</label>
+                <input type="file" class="form-control" id="archivo_demanda" name="archivo_demanda" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="archivo_stock" class="form-label">Archivo de Stock Limpio:</label>
+                <input type="file" class="form-control" id="archivo_stock" name="archivo_stock" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Predecir</button>
+    </form>
+
+    {% if tabla %}
+    <h5>📄 Vista Previa de Resultados</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+            <thead class="table-dark">
+                <tr>
+                    {% for col in tabla[0].keys() %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for fila in tabla %}
+                <tr>
+                    {% for val in fila.values() %}
+                    <td>{{ val }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if metricas_base %}
+    <h5 class="mt-4">🧠 Métricas de Modelos Base</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Modelo</th>
+                    <th>MAE</th>
+                    <th>RMSE</th>
+                    <th>R²</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for modelo, valores in metricas_base.items() %}
+                <tr>
+                    <td>{{ modelo }}</td>
+                    <td>{{ valores.MAE }}</td>
+                    <td>{{ valores.RMSE }}</td>
+                    <td>{{ valores.R2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if metricas_meta %}
+    <h5 class="mt-4">🔗 Métricas del Metamodelo (Stacking)</h5>
+    <ul>
+        <li><strong>MAE:</strong> {{ metricas_meta.MAE }}</li>
+        <li><strong>RMSE:</strong> {{ metricas_meta.RMSE }}</li>
+        <li><strong>R²:</strong> {{ metricas_meta.R2 }}</li>
+    </ul>
+    <a href="{{ enlace }}" class="btn btn-outline-success mt-3">📥 Descargar Excel Completo</a>
+    {% endif %}
+
+    <div class="mt-4">
+        <a href="/outbound" class="btn btn-outline-secondary">⬅ Volver al menú Outbound</a>
+    </div>
+</div>
+</body>
+</html>

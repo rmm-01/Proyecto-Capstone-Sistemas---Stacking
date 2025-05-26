@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de Quiebre de Stock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+
+    <h2 class="mb-4">📦 Predicción de Quiebre de Stock por Producto</h2>
+
+    <div class="alert alert-warning">
+        <strong>⚠️ Entrenamiento Inicial:</strong> Este modelo ha sido entrenado con una cantidad limitada de datos (solo del año actual) y presenta un alto desbalance de clases. Se recomienda integrar al menos 3 años de datos históricos para una predicción más confiable.
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            📋 Información del Proceso Actual
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Archivos usados: <strong>stock_limpio.xlsx</strong> y <strong>demanda_limpia.xlsx</strong></li>
+                <li>Modelos base: <strong>XGBoost</strong>, <strong>LightGBM</strong>, <strong>DecisionTree</strong></li>
+                <li>Metamodelo: <strong>Regresión Logística</strong> (Stacking)</li>
+                <li>Variables utilizadas: stock, por_llegar, ov_1, ov_2, sitio</li>
+                <li>Salida esperada: Predicción binaria de quiebre de stock (1 = sí, 0 = no)</li>
+            </ul>
+        </div>
+    </div>
+
+    <h5>📈 Métricas Generales del Modelo (Stacking)</h5>
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr><th>Métrica</th><th>Valor</th></tr>
+        </thead>
+        <tbody>
+        {% for key, value in metrics.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ "%.4f"|format(value) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">🔍 Vista previa de predicciones (primeros 10 registros)</h5>
+    <div class="table-responsive">
+        {{ tabla|safe }}
+    </div>
+
+</div>
+</body>
+</html>
