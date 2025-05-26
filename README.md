@@ -1,4 +1,4 @@
-﻿# ProyectoCapstoneStacking
+﻿# ProyectoCapstoneStacking (Work In Progress)
 
 Codigo de proyecto de CAPSTONE PROJECT SISTEMAS 2025-1, con tema "Aplicación de modelos de Ensemble Stacking para la optimización de procesos logísticos de una empresa."
 
